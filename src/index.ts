@@ -1,10 +1,11 @@
-import {ApplicationConfig, App} from './application';
+import {App, ApplicationConfig} from './application';
 
 export * from './application';
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new App(options);
   await app.boot();
+  await app.migrateSchema();
   await app.start();
 
   const url = app.restServer.url;
@@ -18,7 +19,7 @@ if (require.main === module) {
   // Run the application
   const config = {
     rest: {
-      port: +(process.env.PORT ?? 3000),
+      port: +(process.env.PORT ?? 3002),
       host: process.env.HOST,
       // The `gracePeriodForClose` provides a graceful close for http/https
       // servers with keep-alive clients. The default value is `Infinity`
